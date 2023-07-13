@@ -2,7 +2,6 @@ window.addEventListener('load', iniciarJuego)
 
 let ataqueJugador
 let ataqueEnemigo
-let resultado
 let vidasJugador = 3
 let vidasEnemigo = 3
 
@@ -80,7 +79,7 @@ function ataqueTierra(){
     ataqueMascotaEnemiga()
 }
 
-function crearMensaje(){
+function crearMensaje(resultado){
     let seccionMensajes = document.getElementById('mensajes')
 
     let parrafo = document.createElement('p')
@@ -89,28 +88,45 @@ function crearMensaje(){
     seccionMensajes.appendChild(parrafo)
 }
 
+function crearMensajeFinal(resultadoFinal){
+    let seccionMensajes = document.getElementById('mensajes')
+
+    let parrafo = document.createElement('p')
+    parrafo.innerHTML = resultadoFinal
+
+    seccionMensajes.appendChild(parrafo)
+}
+
+function revisarVidas(){
+    if(vidasEnemigo == 0){
+        crearMensajeFinal("Felicitaciones, ganaste :)")
+    }else if(vidasJugador == 0){
+        crearMensajeFinal("Lo siento, perdiste :(")
+    }
+}
+
 function combate(){
     //Fuego 1, Agua 2, Tierra 3
     let spanVidaJugador = document.getElementById('vidaMascotaJugador')
     let spanVidaEnemigo = document.getElementById('vidaMascotaEnemiga')
     if (ataqueJugador == ataqueEnemigo){
-        resultado = "Ha sido empate"
+        crearMensaje("Ha sido empate")
     } else if(ataqueJugador == 'Fuego' && ataqueEnemigo == 'Tierra'){
-        resultado = "Jugador ha ganado"
+        crearMensaje("Jugador ha ganado")
         vidasEnemigo = vidasEnemigo - 1
         spanVidaEnemigo.innerHTML = vidasEnemigo
     } else if(ataqueJugador == 'Agua' && ataqueEnemigo == 'Fuego'){
-        resultado = "Jugador ha ganado"
+        crearMensaje("Jugador ha ganado")
         vidasEnemigo = vidasEnemigo - 1
         spanVidaEnemigo.innerHTML = vidasEnemigo
     }else if (ataqueJugador == 'Tierra' && ataqueEnemigo == 'Agua'){
-        resultado = "Jugador ha ganado"
+        crearMensaje("Jugador ha ganado")
         vidasEnemigo = vidasEnemigo - 1
         spanVidaEnemigo.innerHTML = vidasEnemigo
     } else {
-        resultado = "Pc ha ganado"
+        crearMensaje("Pc ha ganado")
         vidasJugador = vidasJugador - 1
         spanVidaJugador.innerHTML = vidasJugador
     }
-    crearMensaje()
+    revisarVidas()
 }
